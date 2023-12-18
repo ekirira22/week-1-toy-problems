@@ -1,7 +1,17 @@
 # Week 1 Toy problems Prerequisites
 What a ride!
-## Testing my knowledge on Javascript
-By the end of this project I should grasp the fundamental concepts of JS, from arrays, to functions to loops
+
+## Testing knowledge on Javascript
+By the end of this project you should grasp the fundamental concepts of JS, from arrays, to functions to loops
+
+## How-To Set Up
+NB: All JS files are in the JS Folder and the index.html file will lead you to the respective HTML files in the HTML Folder
+
+1. Click on the code button and copy the SSH link
+2. Go to your local terminal, insert `git clone [copied link]`
+3. Open the Folder in Visual Studio code and begin coding, good luck!!
+
+
 ### Challenge 1: Student Grade Generator (Toy Problem)
 
 Write a function that prompts the user to input student marks. The input should be between 0 and 100. The output should correspond the correct grade, as shown below: 
