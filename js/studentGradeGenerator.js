@@ -29,5 +29,5 @@ const gradeGenerator = studentmarks => {
 }
 
 /* Gets the element in the HTML document with id demo and appends the respective grade in the innerHTML */
-document.getElementById("demo").innerHTML = `Hello there, your grade is ${gradeGenerator(studentmarks)}`
+document.getElementById("demo").innerHTML = `Hello there, your grade is ${gradeGenerator(studentmarks)} <br>`
     
