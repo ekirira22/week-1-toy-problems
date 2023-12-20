@@ -1,28 +1,47 @@
 /* Prompts the user for input of Basic Salary and other deductible benefits */
 
-let UserbasicSalary = parseInt(prompt("Enter your basic salary"))
+let UserbasicSalary = parseFloat(prompt("Enter your basic salary"))
+let benefits = parseFloat(prompt("Enter your monthly benefit allowances"))
 
 /* Declared a function NetSalary that receives the user input and returns the calculated Net Pay */
 
 /* MAIN LOGIC*/
-function NetSalary (basicSalary) {
+//ALGO
+//STEP 1. CALCULATE GROSS SALARY = BASIC SALARY + BENEFITS/ALLOWANCES 
+//STEP 2. CALCULATE TAXABLE INCOME = GROSS SALARY - DEDUCTIBLES(NSSF)
+//STEP 3. CALCULATE PAYEE = TAXABLE INCOME USING PROVIDED RATES **
+//STEP 4. CALCULATE NET SALARY = GROSS SALARY - (PAYEE + NHIF)
 
-    /* Declared a global variable for grossSalary that uses a function benefitsDeductible() that deducts benefits and nhif, nssf etc */
 
-    const grossSalary = basicSalary - benefitsDeductibles(basicSalary)
+function NetSalary (basicSalary, benefits) {
 
-    /*This now does the final deduction of the payee from the taxable income */
-    const netSalary = grossSalary - Payee(grossSalary)
+    /* Declared a global variable for grossSalary that receives calculated gross salary */
+    /* Declared a global variable for taxableIncome that receives calculated taxable income by deducting Nssf */
+
+
+    const grossSalary = basicSalary + benefits
+    const taxableIncome = grossSalary - Nssf(basicSalary)
+
+    /*This now does the final deduction of the payee and nhif from the taxable income and returns it in netSalary*/
+
+    const netSalary = (grossSalary - Payee(taxableIncome)) - Nhif(basicSalary)
+    
+    console.log(Nssf(basicSalary))
+    console.log(grossSalary)
+    console.log(Nhif(basicSalary))
+    console.log(Payee(taxableIncome))
+
+
     return netSalary
 }
 
 /* CALCULATOR FUNCTIONS */
-function benefitsDeductibles(basicSalary){
-    //returns the amount to be deducted from inputted basic salary by calculating the employees NHIF and NSSF
-    //Passes basicSalary inputted to Nhif and Nssf function to calculate respective deductibles
-    const totalDeductible = Nhif(basicSalary) + Nssf(basicSalary)
-    return totalDeductible
-}
+// function benefitsDeductibles(basicSalary){
+//     //returns the amount to be deducted from inputted basic salary by calculating the employees NHIF and NSSF
+//     //Passes basicSalary inputted to Nhif and Nssf function to calculate respective deductibles
+//     const totalDeductible = Nhif(basicSalary) + Nssf(basicSalary)
+//     return totalDeductible
+// }
 
 /* NHIF hoisted function receives the basicSalary input and calculates accordindlgy returning a value */
 function Nhif (basicSalary) {
@@ -33,9 +52,9 @@ function Nhif (basicSalary) {
             return 300
         }else if(basicSalary > 7999 && basicSalary <= 11999){
             return 400
-        }else if(basicSalary >= 12000 && basicSalary <= 14999){
+        }else if(basicSalary > 11999 && basicSalary <= 14999){
             return 500
-        }else if(basicSalary >= 15000 && basicSalary <= 19999){
+        }else if(basicSalary > 14999 && basicSalary <= 19999){
             return 600
         }else if(basicSalary > 19999 && basicSalary <= 24999){
             return 750
@@ -59,7 +78,7 @@ function Nhif (basicSalary) {
             return 1500
         }else if(basicSalary > 89999 && basicSalary <= 99999){
             return 1600
-        }else if(basicSalary > 100000){
+        }else if(basicSalary >= 100000){
             return 1700
     }
 }
@@ -67,24 +86,37 @@ function Nhif (basicSalary) {
 /* NSSF hoisted function returns a value which is 6% of the basic salary from input */
 
 function Nssf (basicSalary){
-    return basicSalary * 0.06
+    if(basicSalary >= 18000){
+        return 1080
+    }else{
+        return basicSalary * 0.06
+    }
 }
 
 /* This is now where the taxable payee is calculated, this time from the gross pay after deductions */
 
-function Payee (grossSalary) {
-    if(grossSalary < 24000){
-        return grossSalary * 0.1
-    }else if(grossSalary > 24000 && grossSalary <= 32333){
-        return grossSalary * 0.25
-    }
-    else if(grossSalary > 32333 && grossSalary <= 500000){
-        return grossSalary * 0.3
-    }else if(grossSalary > 500000 && grossSalary <= 800000){
-        return grossSalary * 0.325
-    }else{
-        return grossSalary * 0.35
-    }
+function Payee (taxableIncome) {
+    const payee = 0
+   if(taxableIncome <= 24000){
+        return payee
+   }
+   else if(taxableIncome > 24000 && taxableIncome <= 32333){
+        
+        let totalPayee = ((taxableIncome - 24001) * 0.25)
+        return totalPayee
+   }
+   else if(taxableIncome > 32333 && taxableIncome <= 500000){
+        let totalPayee = ((32334 - 24001)*0.25) + ((taxableIncome - 32334) * 0.3)
+        return totalPayee
+   }
+   else if(taxableIncome > 50000 && taxableIncome <= 800000){
+        let totalPayee = ((32334 - 24001)*0.25) + ((500001 - 32334) * 0.3) + ((taxableIncome - 500001) * 0.325)
+        return totalPayee
+
+   }else{
+        let totalPayee = ((32334 - 24001)*0.25) + ((500001 - 32334) * 0.3) + ((800001 - 500001) * 0.325) + ((taxableIncome - 800001) * 0.35) 
+        return totalPayee
+   }
 }
 
 
@@ -92,6 +124,6 @@ function Payee (grossSalary) {
 // console.log(NetSalary(basicSalary))
 
 /* Gets the element in the HTML document with id demo and appends the respective calculated salary in the innerHTML */
-document.getElementById("demo").innerHTML = `Hello there, your salary will amount to ${NetSalary(UserbasicSalary)} <br>`
+document.getElementById("demo").innerHTML = `Hello there, your salary will amount to ${NetSalary(UserbasicSalary, benefits)} <br>`
     
 
