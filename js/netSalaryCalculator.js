@@ -37,7 +37,7 @@ function NetSalary (basicSalary, benefits) {
     salaryObj["NHIF"] = Nhif(basicSalary)
     salaryObj["Net Salary"] = netSalary 
 
-    console.log(salaryObj)
+    console.table(salaryObj)
 
     return netSalary
 }
