@@ -26,11 +26,18 @@ function NetSalary (basicSalary, benefits) {
 
     const netSalary = (grossSalary - Payee(taxableIncome)) - Nhif(basicSalary)
     
-    console.log(Nssf(basicSalary))
-    console.log(grossSalary)
-    console.log(Nhif(basicSalary))
-    console.log(Payee(taxableIncome))
+    /* FOR DISPLAYING EMPLOYEE SALARY DETAILS*/
+    const salaryObj = {}
+    salaryObj["BasicSalary"] = basicSalary
+    salaryObj["Benefits"] = benefits
+    salaryObj["Deductibles(NSSF)"] = Nssf(basicSalary)
+    salaryObj["GrossSalary"] = grossSalary
+    salaryObj["TaxableIncome"] = taxableIncome
+    salaryObj["PAYEE"] = Payee(taxableIncome)
+    salaryObj["NHIF"] = Nhif(basicSalary)
+    salaryObj["Net Salary"] = netSalary 
 
+    console.log(salaryObj)
 
     return netSalary
 }
